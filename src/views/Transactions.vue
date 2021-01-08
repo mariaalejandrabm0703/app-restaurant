@@ -70,8 +70,8 @@ export default {
         device: "Android",
         products: ["Pastas", "Pescado", "Carne"],
       };
-      //transactions.push(trans);
-      console.log("entra aqui");
+      this.transactions.push(trans);
+      console.log(this.transactions);
     },
   },
   data: () => ({
