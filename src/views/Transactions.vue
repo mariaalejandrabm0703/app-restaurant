@@ -29,20 +29,24 @@
         </v-menu>
       </v-col>
       <v-col sm="2">
-        <v-btn style="width: 100%" @click="AddTransactions" elevation="2"
-          >Search</v-btn
+        <v-btn style="width: 100%" @click="AddTransactions" elevation="2">
+          load</v-btn
         >
       </v-col>
     </v-row>
     <br />
     <div>
-      <TableData :transaction="trans" :headers="headers"></TableData>
+      <TableData :transaction="transactions" :headers="headers"></TableData>
     </div>
   </div>
 </template>
 
 <script>
 import TableData from "../components/TableData";
+import Vue from "vue";
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
 
 export default {
   name: "Transactions",
@@ -50,7 +54,7 @@ export default {
     return {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
-      trans: [],
+      transactions: [],
       headers: [
         {
           text: "ID",
@@ -69,8 +73,9 @@ export default {
         { text: "Device", value: "device", class: "blue darken-4 white--text" },
         {
           text: "Products",
-          value: "products",
+          value: "actions",
           class: "blue darken-4 white--text",
+          sortable: false,
         },
       ],
     };
@@ -82,20 +87,11 @@ export default {
   components: { TableData },
   methods: {
     AddTransactions() {
-      console.log(this.date);
-      //consultp url de Go
-      // obtengo un JSON y convertirlo en {}
-      let transactions = [
-        {
-          id: Math.random(),
-          date: "01/01/2020",
-          id_buyer: "c01bcc96",
-          ip: "000000000",
-          device: "Android",
-          products: ["Pastas", "Pescado", "Carne"],
-        },
-      ];
-      this.trans = transactions;
+      Vue.axios
+        .get("https://mariaalejandrabm0703.github.io/transactions/")
+        .then((response) => {
+          this.transactions = response.data.transactions;
+        });
     },
   },
 };
