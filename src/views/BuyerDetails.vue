@@ -1,18 +1,10 @@
 <template>
   <div class="home pa-6">
-    <v-row align="center" justify="space-around">
-      <v-col sm="10">
-        <v-text-field label="Client ID"></v-text-field>
-      </v-col>
-      <v-col sm="2">
-        <v-btn style="width: 100%" elevation="2">Search</v-btn>
-      </v-col>
-    </v-row>
     <v-row>
       <v-col sm="12">
         <div>
-          <h2>Client:</h2>
-          <h4>Age:</h4>
+          <h2>Client:{{ nameBuyer }}</h2>
+          <h4>Age:{{ ageBuyer }}</h4>
         </div>
         <br />
         <div>
@@ -58,6 +50,7 @@ Vue.use(VueAxios, axios);
 export default {
   name: "BuyerDetails",
   components: { TableData },
+  props: { nameBuyer: String, ageBuyer: Number },
   data() {
     return {
       transactions: [],
@@ -75,8 +68,9 @@ export default {
         { text: "Device", value: "device", class: "blue darken-4 white--text" },
         {
           text: "Products",
-          value: "products",
+          value: "actions",
           class: "blue darken-4 white--text",
+          sortable: false,
         },
       ],
       headersClient: [
@@ -92,15 +86,15 @@ export default {
       ],
       headersProduct: [
         {
-          text: "ID",
+          text: "Name",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "name",
           class: "blue darken-4 white--text",
         },
         {
-          text: "Product",
-          value: "product",
+          text: "Price",
+          value: "price",
           class: "blue darken-4 white--text",
         },
       ],
@@ -111,18 +105,14 @@ export default {
     this.SearchClient();
   },
   methods: {
-    SearchClient() {
+    SearchClient(item) {
       Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/transactions/")
+        .get("https://mariaalejandrabm0703.github.io/searchClient/")
         .then((response) => {
-          this.transactions = response.data.transactions;
-        });
-    },
-    GetClients() {
-      Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/transactions/")
-        .then((response) => {
-          this.transactions = response.data.transactions;
+          console.log(response.data.clientID);
+          this.transactions = response.data.clientID.transactions;
+          this.clients = response.data.clientID.clients;
+          this.products = response.data.clientID.products;
         });
     },
   },

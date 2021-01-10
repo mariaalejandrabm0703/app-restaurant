@@ -8,7 +8,7 @@
       class="elevation-1"
     >
       <template v-slot:item.actions="{ item }">
-        <v-icon @click="viewDetails(item.products)">mdi-book-search</v-icon>
+        <v-icon @click="viewDetails(item, urlDetails)">mdi-book-search</v-icon>
       </template>
     </v-data-table>
   </div>
@@ -17,13 +17,24 @@
 <script>
 export default {
   name: "TableData",
-  props: { transaction: Array, headers: Array, search: String },
+  props: {
+    transaction: Array,
+    headers: Array,
+    search: String,
+    urlDetails: String,
+  },
   data: () => ({
     products: [],
   }),
   methods: {
-    viewDetails(products) {
-      this.products = products;
+    viewDetails(item, urlDetails) {
+      console.log(item);
+      if (item.name) {
+        console.log("vista Buyers " + item.name + " " + urlDetails);
+        this.$router.push(urlDetails);
+      } else {
+        console.log("vista Transactions " + item.name + " " + urlDetails);
+      }
     },
   },
 };

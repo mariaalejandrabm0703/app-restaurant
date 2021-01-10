@@ -36,7 +36,11 @@
     </v-row>
     <br />
     <div>
-      <TableData :transaction="transactions" :headers="headers"></TableData>
+      <TableData
+        :transaction="transactions"
+        :headers="headers"
+        :urlDetails="viewDetails"
+      ></TableData>
     </div>
   </div>
 </template>
@@ -54,6 +58,7 @@ export default {
     return {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
+      viewDetails: "/",
       transactions: [],
       headers: [
         {

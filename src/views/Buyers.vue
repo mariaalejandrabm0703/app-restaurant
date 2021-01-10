@@ -16,6 +16,7 @@
             :transaction="clients"
             :headers="headersClient"
             :search="search"
+            :urlDetails="viewDetails"
           ></TableData>
         </div>
       </v-col>
@@ -36,6 +37,7 @@ export default {
   data() {
     return {
       search: "",
+      viewDetails: "/buyerDetails",
       clients: [],
       headersClient: [
         {
