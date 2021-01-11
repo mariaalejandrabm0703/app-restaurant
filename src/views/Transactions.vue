@@ -97,7 +97,6 @@ export default {
         .get("https://mariaalejandrabm0703.github.io/transactions/")
         .then((response) => {
           this.transactions = response.data.transactions;
-          console.log(response.data.transactions);
         });
     },
   },

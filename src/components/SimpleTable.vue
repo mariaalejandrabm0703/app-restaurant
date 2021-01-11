@@ -27,7 +27,6 @@ export default {
   name: "SimpleTable",
   created: function () {
     // Se ejecuta cuando inicia la aplicación
-    //this.products = JSON.parse(this.$route.params.products);
     this.products = this.$route.query.products;
   },
   data() {

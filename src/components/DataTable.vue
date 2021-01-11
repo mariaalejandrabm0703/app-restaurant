@@ -33,9 +33,7 @@ export default {
       if (item.name && item.id && item.age) {
         path = urlDetails + "/" + item.id;
         this.$router.push(path);
-        console.log(urlDetails);
       } else {
-        console.log(urlDetails);
         // muestra la vista de productos en una tabla simple
         if (urlDetails === "/") {
           this.$router.push({
