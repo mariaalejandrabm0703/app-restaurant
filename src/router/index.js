@@ -21,9 +21,19 @@ const routes = [
     component: () => import('../views/Buyers.vue')
   },
   {
-    path: '/buyerDetails',
+    path: '/buyer/:id',
     name: 'BuyerDetails',
     component: () => import('../views/BuyerDetails.vue')
+  },
+  {
+    path: '/buyer/:id/products_details/',
+    name: 'SimpleTable1',
+    component: () => import('../components/SimpleTable.vue')
+  },
+  {
+    path: '/transactions/products_details/',
+    name: 'SimpleTable2',
+    component: () => import('../components/SimpleTable.vue')
   }
 ]
 

@@ -12,12 +12,12 @@
       </v-col>
       <v-col sm="12">
         <div>
-          <TableData
-            :transaction="clients"
-            :headers="headersClient"
+          <DataTable
+            :datas="buyers"
+            :headers="headersBuyers"
             :search="search"
             :urlDetails="viewDetails"
-          ></TableData>
+          ></DataTable>
         </div>
       </v-col>
     </v-row>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import TableData from "../components/TableData";
+import DataTable from "../components/DataTable";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
@@ -33,13 +33,13 @@ Vue.use(VueAxios, axios);
 
 export default {
   name: "Buyers",
-  components: { TableData },
+  components: { DataTable },
   data() {
     return {
       search: "",
-      viewDetails: "/buyerDetails",
-      clients: [],
-      headersClient: [
+      viewDetails: "/buyer",
+      buyers: [],
+      headersBuyers: [
         {
           text: "ID",
           align: "start",
@@ -60,14 +60,14 @@ export default {
   },
   created: function () {
     // Se ejecuta cuando inicia la aplicación
-    this.GetClients();
+    this.GetBuyers();
   },
   methods: {
-    GetClients() {
+    GetBuyers() {
       Vue.axios
         .get("https://mariaalejandrabm0703.github.io/clients/")
         .then((response) => {
-          this.clients = response.data.clients;
+          this.buyers = response.data.buyers;
         });
     },
   },
