@@ -44,10 +44,14 @@ export default {
           text: "ID",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "buyer_id",
           class: "blue darken-4 white--text",
         },
-        { text: "Client", value: "name", class: "blue darken-4 white--text" },
+        {
+          text: "Client",
+          value: "buyer_name",
+          class: "blue darken-4 white--text",
+        },
         { text: "Age", value: "age", class: "blue darken-4 white--text" },
         {
           text: "Details",
@@ -65,9 +69,10 @@ export default {
   methods: {
     GetBuyers() {
       Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/clients/")
+        // .get("https://mariaalejandrabm0703.github.io/clients/")
+        .get("http://localhost:8081/buyers")
         .then((response) => {
-          this.buyers = response.data.buyers;
+          this.buyers = response.data.me;
         });
     },
   },
