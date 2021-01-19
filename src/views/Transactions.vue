@@ -66,16 +66,20 @@ export default {
           text: "ID",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "transaction_id",
           class: "blue darken-4 white--text",
         },
-        { text: "Date", value: "date", class: "blue darken-4 white--text" },
         {
           text: "Buyer",
-          value: "id_buyer",
+          value: "buyer.buyer_name",
           class: "blue darken-4 white--text",
         },
         { text: "IP", value: "ip", class: "blue darken-4 white--text" },
+        {
+          text: "Date",
+          value: "transaction_date",
+          class: "blue darken-4 white--text",
+        },
         { text: "Device", value: "device", class: "blue darken-4 white--text" },
         {
           text: "Products",
@@ -88,15 +92,17 @@ export default {
   },
   created: function () {
     // Se ejecuta cuando inicia la aplicación
+
     this.AddTransactions();
   },
 
   methods: {
     AddTransactions() {
       Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/transactions/")
+        // .get("https://mariaalejandrabm0703.github.io/transactions/")
+        .get("http://localhost:8081/123456")
         .then((response) => {
-          this.transactions = response.data.transactions;
+          this.transactions = response.data.me;
         });
     },
   },
