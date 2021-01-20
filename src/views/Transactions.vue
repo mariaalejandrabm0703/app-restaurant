@@ -92,17 +92,24 @@ export default {
   },
   created: function () {
     // Se ejecuta cuando inicia la aplicación
-
-    this.AddTransactions();
+    this.GetTransactions();
   },
 
   methods: {
+    GetTransactions() {
+      var trans = this.$store.state.transactions;
+      if (trans.length > 0) {
+        this.transactions = trans;
+      } else {
+        this.AddTransactions();
+      }
+    },
     AddTransactions() {
       Vue.axios
-        // .get("https://mariaalejandrabm0703.github.io/transactions/")
         .get("http://localhost:8081/transactions/" + this.date)
         .then((response) => {
           this.transactions = response.data.me;
+          this.$store.dispatch("saveTransactions", this.transactions);
         });
     },
   },

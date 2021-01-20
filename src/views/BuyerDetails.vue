@@ -62,6 +62,7 @@ export default {
       transactions: [],
       buyers: [],
       products: [],
+      buyerDetail: {},
       headersTrans: [
         {
           text: "ID",
@@ -107,20 +108,37 @@ export default {
   },
   created: function () {
     // Se ejecuta cuando inicia la aplicación
-    this.SearchClient(this.$route.params.id);
+    this.GetBuyer(this.$route.params.id);
   },
   methods: {
+    GetBuyer(buyer_id) {
+      var buyerDetails = this.$store.state.buyerDetails;
+      if (buyerDetails.name) {
+        this.buyerDetail = buyerDetails;
+        this.GetDataAditional();
+      } else {
+        this.SearchClient(buyer_id);
+      }
+    },
     SearchClient(idBuyer) {
       // usar ID para poder consultar el buyer
+      console.log(idBuyer);
       Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/searchClient/")
+        .get("https://mariaalejandrabm0703.github.io/searchClient/", {
+          buyer_id: idBuyer,
+        })
         .then((response) => {
-          this.name = response.data.clientID.name;
-          this.age = response.data.clientID.age;
-          this.transactions = response.data.clientID.transactions;
-          this.buyers = response.data.clientID.buyers;
-          this.products = response.data.clientID.products;
+          this.buyerDetail = response.data.clientID;
+          this.GetDataAditional();
+          this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
         });
+    },
+    GetDataAditional() {
+      this.name = this.buyerDetail.name;
+      this.age = this.buyerDetail.age;
+      this.transactions = this.buyerDetail.transactions;
+      this.buyers = this.buyerDetail.buyers;
+      this.products = this.buyerDetail.products;
     },
   },
 };

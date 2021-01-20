@@ -68,12 +68,18 @@ export default {
   },
   methods: {
     GetBuyers() {
-      Vue.axios
-        // .get("https://mariaalejandrabm0703.github.io/clients/")
-        .get("http://localhost:8081/buyers")
-        .then((response) => {
-          this.buyers = response.data.me;
-        });
+      var buyerss = this.$store.state.buyers;
+      if (buyerss.length > 0) {
+        this.buyers = buyerss;
+      } else {
+        this.AddBuyers();
+      }
+    },
+    AddBuyers() {
+      Vue.axios.get("http://localhost:8081/buyers").then((response) => {
+        this.buyers = response.data.me;
+        this.$store.dispatch("saveBuyers", this.buyers);
+      });
     },
   },
 };

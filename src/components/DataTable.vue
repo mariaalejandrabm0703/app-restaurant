@@ -8,7 +8,7 @@
       class="elevation-1"
     >
       <template v-slot:item.actions="{ item }">
-        <v-icon @click="viewDetails(item, urlDetails)">mdi-book-search</v-icon>
+        <v-icon @click="ViewDetails(item, urlDetails)">mdi-book-search</v-icon>
       </template>
     </v-data-table>
   </div>
@@ -27,11 +27,11 @@ export default {
     products: [],
   }),
   methods: {
-    viewDetails(item, urlDetails) {
+    ViewDetails(item, urlDetails) {
       // muestra la vista de detalles del buyer
       let path = "";
-      if (item.name && item.id && item.age) {
-        path = urlDetails + "/" + item.id;
+      if (item.buyer_name && item.buyer_id && item.age) {
+        path = urlDetails + "/" + item.buyer_id;
         this.$router.push(path);
       } else {
         // muestra la vista de productos en una tabla simple
