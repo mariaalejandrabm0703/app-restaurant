@@ -100,7 +100,7 @@ export default {
     AddTransactions() {
       Vue.axios
         // .get("https://mariaalejandrabm0703.github.io/transactions/")
-        .get("http://localhost:8081/123456")
+        .get("http://localhost:8081/transactions/" + this.date)
         .then((response) => {
           this.transactions = response.data.me;
         });
