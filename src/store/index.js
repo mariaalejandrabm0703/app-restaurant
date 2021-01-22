@@ -7,12 +7,14 @@ export default new Vuex.Store({
   state: {
     transactions: [],
     buyers: [],
-    buyerDetails: {}
+    buyerDetails: {},
+    isLoading: false
   },
   mutations: {
     updateTransactions: (state, data) => { state.transactions = data; },
     updateBuyers: (state, data) => { state.buyers = data; },
-    updateBuyerDetail: (state, data) => { state.buyerDetail = data; },
+    updateBuyerDetail: (state, data) => { state.buyerDetails = data; },
+    updateLoading: (state) => { state.isLoading = !state.isLoading; }
   },
   actions: {
     saveTransactions({ commit }, transactions) {
@@ -24,6 +26,9 @@ export default new Vuex.Store({
     saveBuyersDetail({ commit }, buyersDetail) {
       commit('updateBuyerDetail', buyersDetail)
     },
+    showLoading({ commit }) {
+      commit('updateLoading')
+    }
   },
   modules: {
   }

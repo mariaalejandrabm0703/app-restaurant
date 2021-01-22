@@ -31,7 +31,9 @@ export default {
       // muestra la vista de detalles del buyer
       let path = "";
       if (item.buyer_name && item.buyer_id && item.age) {
+        this.$store.dispatch("saveBuyersDetail", {});
         path = urlDetails + "/" + item.buyer_id;
+        console.log(path);
         this.$router.push(path);
       } else {
         // muestra la vista de productos en una tabla simple

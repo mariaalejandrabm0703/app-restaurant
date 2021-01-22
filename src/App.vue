@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Spinner :start="this.$store.state.isLoading" />
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
@@ -38,8 +39,10 @@
 </template>
 
 <script>
+import Spinner from "./components/Spinner.vue";
 export default {
   name: "App",
+  components: { Spinner },
   data: () => ({
     drawer: null,
     items: [

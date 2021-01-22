@@ -105,11 +105,16 @@ export default {
       }
     },
     AddTransactions() {
+      this.$store.dispatch("showLoading");
+      this.$store.dispatch("saveTransactions", []);
+      this.transactions = [];
       Vue.axios
         .get("http://localhost:8081/transactions/" + this.date)
         .then((response) => {
           this.transactions = response.data.me;
           this.$store.dispatch("saveTransactions", this.transactions);
+          this.$store.dispatch("saveBuyers", []);
+          this.$store.dispatch("showLoading");
         });
     },
   },

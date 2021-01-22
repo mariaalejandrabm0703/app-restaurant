@@ -68,10 +68,15 @@ export default {
           text: "ID",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "transaction_id",
           class: "blue darken-4 white--text",
         },
         { text: "IP", value: "ip", class: "blue darken-4 white--text" },
+        {
+          text: "Date",
+          value: "transaction_date",
+          class: "blue darken-4 white--text",
+        },
         { text: "Device", value: "device", class: "blue darken-4 white--text" },
         {
           text: "Products",
@@ -84,18 +89,27 @@ export default {
           text: "ID",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "buyer_id",
           class: "blue darken-4 white--text",
         },
-        { text: "Client", value: "name", class: "blue darken-4 white--text" },
+        {
+          text: "Buyer",
+          value: "buyer_name",
+          class: "blue darken-4 white--text",
+        },
         { text: "Age", value: "age", class: "blue darken-4 white--text" },
+        {
+          text: "IP",
+          value: "transactions[0].ip",
+          class: "blue darken-4 white--text",
+        },
       ],
       headersProduct: [
         {
           text: "Name",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "product_name",
           class: "blue darken-4 white--text",
         },
         {
@@ -113,7 +127,8 @@ export default {
   methods: {
     GetBuyer(buyer_id) {
       var buyerDetails = this.$store.state.buyerDetails;
-      if (buyerDetails.name) {
+
+      if (buyerDetails.buyer_name) {
         this.buyerDetail = buyerDetails;
         this.GetDataAditional();
       } else {
@@ -122,19 +137,18 @@ export default {
     },
     SearchClient(idBuyer) {
       // usar ID para poder consultar el buyer
-      console.log(idBuyer);
+      this.$store.dispatch("showLoading");
       Vue.axios
-        .get("https://mariaalejandrabm0703.github.io/searchClient/", {
-          buyer_id: idBuyer,
-        })
+        .get("http://localhost:8081/search_buyer/" + idBuyer)
         .then((response) => {
-          this.buyerDetail = response.data.clientID;
-          this.GetDataAditional();
+          this.buyerDetail = response.data.me[0];
           this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
+          this.GetDataAditional();
+          this.$store.dispatch("showLoading");
         });
     },
     GetDataAditional() {
-      this.name = this.buyerDetail.name;
+      this.name = this.buyerDetail.buyer_name;
       this.age = this.buyerDetail.age;
       this.transactions = this.buyerDetail.transactions;
       this.buyers = this.buyerDetail.buyers;
