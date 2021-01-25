@@ -76,7 +76,7 @@ export default {
       }
     },
     AddBuyers() {
-      Vue.axios.get("http://localhost:8081/buyers").then((response) => {
+      Vue.axios.get("/buyers").then((response) => {
         this.buyers = response.data.me;
         this.$store.dispatch("saveBuyers", this.buyers);
       });

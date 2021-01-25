@@ -138,14 +138,12 @@ export default {
     SearchClient(idBuyer) {
       // usar ID para poder consultar el buyer
       this.$store.dispatch("showLoading");
-      Vue.axios
-        .get("http://localhost:8081/search_buyer/" + idBuyer)
-        .then((response) => {
-          this.buyerDetail = response.data.me[0];
-          this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
-          this.GetDataAditional();
-          this.$store.dispatch("showLoading");
-        });
+      Vue.axios.get("/search_buyer/" + idBuyer).then((response) => {
+        this.buyerDetail = response.data.me[0];
+        this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
+        this.GetDataAditional();
+        this.$store.dispatch("showLoading");
+      });
     },
     GetDataAditional() {
       this.name = this.buyerDetail.buyer_name;
