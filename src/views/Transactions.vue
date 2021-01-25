@@ -42,6 +42,10 @@
         :urlDetails="viewDetails"
       ></DataTable>
     </div>
+    <br />
+    <v-alert v-if="popup" border="top" color="red lighten-2" dark dismissible>
+      An error has occurred, please verify.
+    </v-alert>
   </div>
 </template>
 
@@ -60,6 +64,8 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       viewDetails: "/",
+      popup: false,
+      error: "Error",
       transactions: [],
       headers: [
         {
@@ -108,12 +114,19 @@ export default {
       this.$store.dispatch("showLoading");
       this.$store.dispatch("saveTransactions", []);
       this.transactions = [];
-      Vue.axios.get("/transactions/" + this.date).then((response) => {
-        this.transactions = response.data.me;
-        this.$store.dispatch("saveTransactions", this.transactions);
-        this.$store.dispatch("saveBuyers", []);
-        this.$store.dispatch("showLoading");
-      });
+      Vue.axios
+        .get("/transactions/" + this.date)
+        .then((response) => {
+          this.transactions = response.data.me;
+          this.$store.dispatch("saveTransactions", this.transactions);
+          this.$store.dispatch("saveBuyers", []);
+          this.$store.dispatch("showLoading");
+        })
+        .catch(() => {
+          this.popup = true;
+          this.$store.dispatch("showLoading");
+          this.$store.dispatch("saveTransactions", []);
+        });
     },
   },
 };

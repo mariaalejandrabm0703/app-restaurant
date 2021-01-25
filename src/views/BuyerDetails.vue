@@ -2,10 +2,21 @@
   <div class="home pa-6">
     <v-row>
       <v-col sm="12">
+        <br />
+        <v-alert
+          v-if="popup"
+          border="top"
+          color="red lighten-2"
+          dark
+          dismissible
+        >
+          An error has occurred, please verify.
+        </v-alert>
         <div>
           <h2>Buyer: {{ this.name }}</h2>
           <h4>Age: {{ this.age }}</h4>
         </div>
+
         <br />
         <div>
           <h2 style="padding: 3px">Transactions:</h2>
@@ -56,6 +67,7 @@ export default {
   components: { DataTable },
   data() {
     return {
+      popup: false,
       name: "",
       age: "",
       viewDetails: "/buyer/" + this.$route.params.id,
@@ -138,12 +150,19 @@ export default {
     SearchClient(idBuyer) {
       // usar ID para poder consultar el buyer
       this.$store.dispatch("showLoading");
-      Vue.axios.get("/search_buyer/" + idBuyer).then((response) => {
-        this.buyerDetail = response.data.me[0];
-        this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
-        this.GetDataAditional();
-        this.$store.dispatch("showLoading");
-      });
+      Vue.axios
+        .get("/search_buyer/" + idBuyer)
+        .then((response) => {
+          this.buyerDetail = response.data.me[0];
+          this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
+          this.GetDataAditional();
+          this.$store.dispatch("showLoading");
+        })
+        .catch(() => {
+          this.popup = true;
+          this.$store.dispatch("showLoading");
+          this.$store.dispatch("saveBuyersDetail", []);
+        });
     },
     GetDataAditional() {
       this.name = this.buyerDetail.buyer_name;

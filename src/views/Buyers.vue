@@ -21,6 +21,10 @@
         </div>
       </v-col>
     </v-row>
+    <br />
+    <v-alert v-if="popup" border="top" color="red lighten-2" dark dismissible>
+      An error has occurred, please verify.
+    </v-alert>
   </div>
 </template>
 
@@ -33,9 +37,11 @@ Vue.use(VueAxios, axios);
 
 export default {
   name: "Buyers",
+
   components: { DataTable },
   data() {
     return {
+      popup: false,
       search: "",
       viewDetails: "/buyer",
       buyers: [],
@@ -76,10 +82,19 @@ export default {
       }
     },
     AddBuyers() {
-      Vue.axios.get("/buyers").then((response) => {
-        this.buyers = response.data.me;
-        this.$store.dispatch("saveBuyers", this.buyers);
-      });
+      this.$store.dispatch("showLoading");
+      Vue.axios
+        .get("/buyers")
+        .then((response) => {
+          this.$store.dispatch("showLoading");
+          this.buyers = response.data.me;
+          this.$store.dispatch("saveBuyers", this.buyers);
+        })
+        .catch(() => {
+          this.popup = true;
+          this.$store.dispatch("showLoading");
+          this.$store.dispatch("saveBuyers", []);
+        });
     },
   },
 };
