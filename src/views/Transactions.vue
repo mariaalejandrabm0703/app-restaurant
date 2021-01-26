@@ -54,6 +54,7 @@ import DataTable from "../components/DataTable";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 Vue.use(VueAxios, axios);
 
 export default {
@@ -111,22 +112,37 @@ export default {
       }
     },
     AddTransactions() {
-      this.$store.dispatch("showLoading");
-      this.$store.dispatch("saveTransactions", []);
-      this.transactions = [];
-      Vue.axios
-        .get("/transactions/" + this.date)
-        .then((response) => {
-          this.transactions = response.data.me;
-          this.$store.dispatch("saveTransactions", this.transactions);
-          this.$store.dispatch("saveBuyers", []);
-          this.$store.dispatch("showLoading");
-        })
-        .catch(() => {
-          this.popup = true;
-          this.$store.dispatch("showLoading");
-          this.$store.dispatch("saveTransactions", []);
-        });
+      if (this.ValidateDateFormat(this.date)) {
+        let params = {};
+        params["search_date"] = this.date;
+
+        this.$store.dispatch("showLoading");
+        this.$store.dispatch("saveTransactions", []);
+        this.transactions = [];
+        Vue.axios
+          .get("/transactions", {
+            params: params,
+          })
+          .then((response) => {
+            this.transactions = response.data.me;
+            this.$store.dispatch("saveTransactions", this.transactions);
+            this.$store.dispatch("saveBuyers", []);
+            this.$store.dispatch("showLoading");
+          })
+          .catch(() => {
+            this.popup = true;
+            this.$store.dispatch("showLoading");
+            this.$store.dispatch("saveTransactions", []);
+          });
+      }
+    },
+    ValidateDateFormat(date) {
+      var RegExPattern = /^\d{2,4}\-\d{1,2}\-\d{1,2}$/;
+      if (date.match(RegExPattern) && date != "") {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };

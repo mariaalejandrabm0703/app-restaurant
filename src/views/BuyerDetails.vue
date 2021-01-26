@@ -59,6 +59,7 @@ import DataTable from "../components/DataTable";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 Vue.use(VueAxios, axios);
 
 export default {
@@ -149,8 +150,12 @@ export default {
     SearchClient(idBuyer) {
       // usar ID para poder consultar el buyer
       this.$store.dispatch("showLoading");
+      let params = {};
+      params["buyerID"] = idBuyer;
       Vue.axios
-        .get("/search_buyer/" + idBuyer)
+        .get("/search_buyer", {
+          params: params,
+        })
         .then((response) => {
           this.buyerDetail = response.data.me[0];
           this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
