@@ -16,7 +16,6 @@
           <h2>Buyer: {{ this.name }}</h2>
           <h4>Age: {{ this.age }}</h4>
         </div>
-
         <br />
         <div>
           <h2 style="padding: 3px">Transactions:</h2>
