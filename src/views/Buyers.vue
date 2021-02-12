@@ -85,10 +85,11 @@ export default {
     AddBuyers() {
       this.$store.dispatch("showLoading");
       Vue.axios
-        .get("/buyers")
+        .get("https://mariaalejandrabm0703.github.io/clients/")
         .then((response) => {
+          console.log(response);
           this.$store.dispatch("showLoading");
-          this.buyers = response.data.me;
+          this.buyers = response.data.buyers;
           this.$store.dispatch("saveBuyers", this.buyers);
         })
         .catch(() => {

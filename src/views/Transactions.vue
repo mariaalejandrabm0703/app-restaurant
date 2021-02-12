@@ -78,7 +78,7 @@ export default {
         },
         {
           text: "Buyer",
-          value: "buyer.buyer_name",
+          value: "buyer_name",
           class: "blue darken-4 white--text",
         },
         { text: "IP", value: "ip", class: "blue darken-4 white--text" },
@@ -101,7 +101,6 @@ export default {
     // Se ejecuta cuando inicia la aplicación
     this.GetTransactions();
   },
-
   methods: {
     GetTransactions() {
       var trans = this.$store.state.transactions;
@@ -119,12 +118,13 @@ export default {
         this.$store.dispatch("showLoading");
         this.$store.dispatch("saveTransactions", []);
         this.transactions = [];
+
         Vue.axios
-          .get("/transactions", {
+          .get("https://mariaalejandrabm0703.github.io/transactions/", {
             params: params,
           })
           .then((response) => {
-            this.transactions = response.data.me;
+            this.transactions = response.data.transactions;
             this.$store.dispatch("saveTransactions", this.transactions);
             this.$store.dispatch("saveBuyers", []);
             this.$store.dispatch("showLoading");

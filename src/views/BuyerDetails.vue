@@ -110,11 +110,6 @@ export default {
           class: "blue darken-4 white--text",
         },
         { text: "Age", value: "age", class: "blue darken-4 white--text" },
-        {
-          text: "IP",
-          value: "transactions[0].ip",
-          class: "blue darken-4 white--text",
-        },
       ],
       headersProduct: [
         {
@@ -153,11 +148,11 @@ export default {
       let params = {};
       params["buyerID"] = idBuyer;
       Vue.axios
-        .get("/search_buyer", {
+        .get("https://mariaalejandrabm0703.github.io/searchClient/", {
           params: params,
         })
         .then((response) => {
-          this.buyerDetail = response.data.me[0];
+          this.buyerDetail = response.data.clientID;
           this.$store.dispatch("saveBuyersDetail", this.buyerDetail);
           this.GetDataAditional();
           this.$store.dispatch("showLoading");
